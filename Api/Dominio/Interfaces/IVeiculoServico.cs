@@ -1,14 +1,13 @@
+using minimal_api.Dominio.Entidades;
+using minimal_api.DTOs;
 
-using MinimalApi.Dominio.Entidades;
-using MinimalApi.DTOs;
-
-namespace MinimalApi.Dominio.Interfaces;
+namespace minimal_api.Dominio.Interfaces;
 
 public interface IVeiculoServico
 {
-    List<Veiculo> Todos(int? pagina = 1, string? nome = null, string? marca = null);
-    Veiculo? BuscaPorId(int id);
-    void Incluir(Veiculo veiculo);
-    void Atualizar(Veiculo veiculo);
-    void Apagar(Veiculo veiculo);
+    Task<List<Veiculo>> TodosAsync(int? pagina = 1, string? nome = null, string? marca = null);
+    Task<Veiculo?> BuscaPorIdAsync(int id);
+    Task<Veiculo> IncluirAsync(Veiculo veiculo);
+    Task<Veiculo> AtualizarAsync(Veiculo veiculo);
+    Task ApagarAsync(Veiculo veiculo);
 }

@@ -10,6 +10,15 @@ obj/
 /node_modules
 /wwwroot/node_modules
 
+### Logs ###
+logs/
+*.log
+
+### Environment files ###
+.env
+.env.local
+.env.production
+
 ### Linux ###
 *~
 
@@ -102,5 +111,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+### User Secrets ###
+*.user
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,dotnetcore,visualstudiocode

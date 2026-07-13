@@ -1,10 +1,10 @@
-using MinimalApi.Dominio.Entidades;
-using MinimalApi.DTOs;
-using MinimalApi.Infraestrutura.Db;
-using MinimalApi.Dominio.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using minimal_api.Dominio.Entidades;
+using minimal_api.DTOs;
+using minimal_api.Infraestrutura.Db;
+using minimal_api.Dominio.Interfaces;
 
-namespace MinimalApi.Dominio.Servicos;
+namespace minimal_api.Dominio.Servicos;
 
 public class VeiculoServico : IVeiculoServico
 {
@@ -14,42 +14,50 @@ public class VeiculoServico : IVeiculoServico
         _contexto = contexto;
     }
 
-    public void Apagar(Veiculo veiculo)
+    public async Task ApagarAsync(Veiculo veiculo)
     {
         _contexto.Veiculos.Remove(veiculo);
-        _contexto.SaveChanges();
+        await _contexto.SaveChangesAsync();
     }
 
-    public void Atualizar(Veiculo veiculo)
+    public async Task<Veiculo> AtualizarAsync(Veiculo veiculo)
     {
         _contexto.Veiculos.Update(veiculo);
-        _contexto.SaveChanges();
+        await _contexto.SaveChangesAsync();
+        return veiculo;
     }
 
-    public Veiculo? BuscaPorId(int id)
+    public async Task<Veiculo?> BuscaPorIdAsync(int id)
     {
-        return _contexto.Veiculos.Where(v => v.Id == id).FirstOrDefault();
+        return await _contexto.Veiculos.FirstOrDefaultAsync(v => v.Id == id);
     }
 
-    public void Incluir(Veiculo veiculo)
+    public async Task<Veiculo> IncluirAsync(Veiculo veiculo)
     {
         _contexto.Veiculos.Add(veiculo);
-        _contexto.SaveChanges();
+        await _contexto.SaveChangesAsync();
+        return veiculo;
     }
 
-    public List<Veiculo> Todos(int? pagina = 1, string? nome = null, string? marca = null)
+    public async Task<List<Veiculo>> TodosAsync(int? pagina = 1, string? nome = null, string? marca = null)
     {
         var query = _contexto.Veiculos.AsQueryable();
-        if(!string.IsNullOrEmpty(nome))
+
+        if (!string.IsNullOrEmpty(nome))
         {
-            query = query.Where(v => EF.Functions.Like(v.Nome.ToLower(), $"%{nome}%"));
+            query = query.Where(v => v.Nome.ToLower().Contains(nome.ToLower()));
+        }
+
+        if (!string.IsNullOrEmpty(marca))
+        {
+            query = query.Where(v => v.Marca.ToLower().Contains(marca.ToLower()));
         }
 
         int itensPorPagina = 10;
 
-        if(pagina != null)
+        if (pagina != null)
             query = query.Skip(((int)pagina - 1) * itensPorPagina).Take(itensPorPagina);
 
-        return query.ToList();
+        return await query.ToListAsync();
     }
 }

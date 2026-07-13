@@ -1,46 +1,52 @@
-using MinimalApi.Dominio.Entidades;
-using MinimalApi.Dominio.Interfaces;
-using MinimalApi.DTOs;
+using minimal_api.Dominio.Entidades;
+using minimal_api.Dominio.Interfaces;
+using minimal_api.DTOs;
 
 namespace Test.Mocks;
 
 public class AdministradorServicoMock : IAdministradorServico
 {
-    private static List<Administrador> administradores = new List<Administrador>(){
-        new Administrador{
+    private static readonly List<Administrador> administradores = new List<Administrador>()
+    {
+        new Administrador
+        {
             Id = 1,
             Email = "adm@teste.com",
-            Senha = "123456",
+            Senha = BCrypt.Net.BCrypt.HashPassword("123456"),
             Perfil = "Adm"
         },
-        new Administrador{
+        new Administrador
+        {
             Id = 2,
             Email = "editor@teste.com",
-            Senha = "123456",
+            Senha = BCrypt.Net.BCrypt.HashPassword("123456"),
             Perfil = "Editor"
         }
     };
 
-    public Administrador? BuscaPorId(int id)
+    public Task<Administrador?> BuscaPorIdAsync(int id)
     {
-        return administradores.Find(a => a.Id == id);
+        return Task.FromResult(administradores.Find(a => a.Id == id));
     }
 
-    public Administrador Incluir(Administrador administrador)
+    public Task<Administrador> IncluirAsync(Administrador administrador)
     {
-        administrador.Id = administradores.Count() + 1;
+        administrador.Id = administradores.Count + 1;
         administradores.Add(administrador);
-
-        return administrador;
+        return Task.FromResult(administrador);
     }
 
-    public Administrador? Login(LoginDTO loginDTO)
+    public Task<Administrador?> LoginAsync(LoginDTO loginDTO)
     {
-        return administradores.Find(a => a.Email == loginDTO.Email && a.Senha == loginDTO.Senha);
+        var adm = administradores.Find(a => a.Email == loginDTO.Email);
+        if (adm != null && BCrypt.Net.BCrypt.Verify(loginDTO.Senha, adm.Senha))
+            return Task.FromResult<Administrador?>(adm);
+
+        return Task.FromResult<Administrador?>(null);
     }
 
-    public List<Administrador> Todos(int? pagina)
+    public Task<List<Administrador>> TodosAsync(int? pagina)
     {
-        return administradores;
+        return Task.FromResult(administradores.ToList());
     }
 }

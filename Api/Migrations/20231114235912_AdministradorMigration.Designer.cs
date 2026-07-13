@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MinimalApi.Infraestrutura.Db;
+using minimal_api.Infraestrutura.Db;
 
 #nullable disable
 
@@ -21,7 +21,7 @@ namespace mininal_api.Migrations
                 .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("MinimalApi.Dominio.Entidades.Administrador", b =>
+            modelBuilder.Entity("minimal_api.Dominio.Entidades.Administrador", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

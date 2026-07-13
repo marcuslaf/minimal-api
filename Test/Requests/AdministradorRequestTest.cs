@@ -1,8 +1,8 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using MinimalApi.Dominio.ModelViews;
-using MinimalApi.DTOs;
+using minimal_api.Dominio.ModelViews;
+using minimal_api.DTOs;
 using Test.Helpers;
 
 namespace Test.Requests;
@@ -21,34 +21,71 @@ public class AdministradorRequestTest
     {
         Setup.ClassCleanup();
     }
-    
+
     [TestMethod]
-    public async Task TestarGetSetPropriedades()
+    public async Task TestarLoginComSucesso()
     {
         // Arrange
-        var loginDTO = new LoginDTO{
+        var loginDTO = new LoginDTO
+        {
             Email = "adm@teste.com",
             Senha = "123456"
         };
 
-        var content = new StringContent(JsonSerializer.Serialize(loginDTO), Encoding.UTF8,  "Application/json");
+        var content = new StringContent(
+            JsonSerializer.Serialize(loginDTO),
+            Encoding.UTF8,
+            "application/json");
 
         // Act
         var response = await Setup.client.PostAsync("/administradores/login", content);
 
         // Assert
-        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+        var body = await response.Content.ReadAsStringAsync();
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, $"Login falhou: {body}");
 
-        var result = await response.Content.ReadAsStringAsync();
-        var admLogado = JsonSerializer.Deserialize<AdministradorLogado>(result, new JsonSerializerOptions
+        var admLogado = JsonSerializer.Deserialize<AdministradorLogado>(body, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         });
 
-        Assert.IsNotNull(admLogado?.Email ?? "");
-        Assert.IsNotNull(admLogado?.Perfil ?? "");
-        Assert.IsNotNull(admLogado?.Token ?? "");
+        Assert.IsNotNull(admLogado);
+        Assert.IsFalse(string.IsNullOrEmpty(admLogado.Email));
+        Assert.IsFalse(string.IsNullOrEmpty(admLogado.Token));
+    }
 
-        Console.WriteLine(admLogado?.Token);
+    [TestMethod]
+    public async Task TestarLoginComCredenciaisInvalidas()
+    {
+        // Arrange
+        var loginDTO = new LoginDTO
+        {
+            Email = "adm@teste.com",
+            Senha = "senhaerrada"
+        };
+
+        var content = new StringContent(
+            JsonSerializer.Serialize(loginDTO),
+            Encoding.UTF8,
+            "application/json");
+
+        // Act
+        var response = await Setup.client.PostAsync("/administradores/login", content);
+
+        // Assert
+        Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [TestMethod]
+    public async Task TestarHomeEndpoint()
+    {
+        // Act
+        var response = await Setup.client.GetAsync("/");
+
+        // Assert
+        Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadAsStringAsync();
+        Assert.IsTrue(body.Contains("Bem vindo"));
     }
 }

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__MySql=Server=db;Database=minimal_api;Uid=root;Pwd=root;
+      - Jwt__Key=${JWT_KEY:-minimal-api-chave-secreta-muda-em-producao}
+      - Jwt__ExpiryDays=${JWT_EXPIRY_DAYS:-1}
+      - Cors__AllowedOrigins__0=http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.1
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: minimal_api
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./Test/minimal_api.dump.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  mysql_data:

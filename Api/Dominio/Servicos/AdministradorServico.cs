@@ -1,9 +1,10 @@
-using MinimalApi.Dominio.Entidades;
-using MinimalApi.DTOs;
-using MinimalApi.Infraestrutura.Db;
-using MinimalApi.Dominio.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using minimal_api.Dominio.Entidades;
+using minimal_api.DTOs;
+using minimal_api.Infraestrutura.Db;
+using minimal_api.Dominio.Interfaces;
 
-namespace MinimalApi.Dominio.Servicos;
+namespace minimal_api.Dominio.Servicos;
 
 public class AdministradorServico : IAdministradorServico
 {
@@ -13,34 +14,39 @@ public class AdministradorServico : IAdministradorServico
         _contexto = contexto;
     }
 
-    public Administrador? BuscaPorId(int id)
+    public async Task<Administrador?> BuscaPorIdAsync(int id)
     {
-        return _contexto.Administradores.Where(v => v.Id == id).FirstOrDefault();
+        return await _contexto.Administradores.FirstOrDefaultAsync(v => v.Id == id);
     }
 
-    public Administrador Incluir(Administrador administrador)
+    public async Task<Administrador> IncluirAsync(Administrador administrador)
     {
+        administrador.Senha = BCrypt.Net.BCrypt.HashPassword(administrador.Senha);
         _contexto.Administradores.Add(administrador);
-        _contexto.SaveChanges();
-
+        await _contexto.SaveChangesAsync();
         return administrador;
     }
 
-    public Administrador? Login(LoginDTO loginDTO)
+    public async Task<Administrador?> LoginAsync(LoginDTO loginDTO)
     {
-        var adm = _contexto.Administradores.Where(a => a.Email == loginDTO.Email && a.Senha == loginDTO.Senha).FirstOrDefault();
+        var adm = await _contexto.Administradores.FirstOrDefaultAsync(a => a.Email == loginDTO.Email);
+        if (adm == null) return null;
+
+        if (!BCrypt.Net.BCrypt.Verify(loginDTO.Senha, adm.Senha))
+            return null;
+
         return adm;
     }
 
-    public List<Administrador> Todos(int? pagina)
+    public async Task<List<Administrador>> TodosAsync(int? pagina)
     {
         var query = _contexto.Administradores.AsQueryable();
 
         int itensPorPagina = 10;
 
-        if(pagina != null)
+        if (pagina != null)
             query = query.Skip(((int)pagina - 1) * itensPorPagina).Take(itensPorPagina);
 
-        return query.ToList();
+        return await query.ToListAsync();
     }
 }

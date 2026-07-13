@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MinimalApi.Infraestrutura.Db;
+using minimal_api.Infraestrutura.Db;
 
 #nullable disable
 
@@ -18,7 +18,7 @@ namespace mininal_api.Migrations
                 .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("MinimalApi.Dominio.Entidades.Administrador", b =>
+            modelBuilder.Entity("minimal_api.Dominio.Entidades.Administrador", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,8 +36,8 @@ namespace mininal_api.Migrations
 
                     b.Property<string>("Senha")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -49,11 +49,11 @@ namespace mininal_api.Migrations
                             Id = 1,
                             Email = "administrador@teste.com",
                             Perfil = "Adm",
-                            Senha = "123456"
+                            Senha = ""
                         });
                 });
 
-            modelBuilder.Entity("MinimalApi.Dominio.Entidades.Veiculo", b =>
+            modelBuilder.Entity("minimal_api.Dominio.Entidades.Veiculo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

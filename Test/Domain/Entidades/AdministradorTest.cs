@@ -1,4 +1,4 @@
-using MinimalApi.Dominio.Entidades;
+using minimal_api.Dominio.Entidades;
 
 namespace Test.Domain.Entidades;
 
@@ -22,5 +22,23 @@ public class AdministradorTest
         Assert.AreEqual("teste@teste.com", adm.Email);
         Assert.AreEqual("teste", adm.Senha);
         Assert.AreEqual("Adm", adm.Perfil);
+    }
+
+    [TestMethod]
+    public void TestarCriacaoAdministrador()
+    {
+        // Arrange & Act
+        var adm = new Administrador
+        {
+            Email = "novo@teste.com",
+            Senha = "senha123",
+            Perfil = "Editor"
+        };
+
+        // Assert
+        Assert.IsNotNull(adm.Email);
+        Assert.IsNotNull(adm.Senha);
+        Assert.IsNotNull(adm.Perfil);
+        Assert.AreEqual("Editor", adm.Perfil);
     }
 }
