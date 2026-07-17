@@ -23,7 +23,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-ENTRYPOINT ["dotnet", "minimal-api.dll"]
+ENTRYPOINT ["sh", "-c", "dotnet minimal-api.dll --urls http://+:${PORT:-8080}"]
