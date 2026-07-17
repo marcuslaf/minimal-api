@@ -1,8 +1,10 @@
 # Minimal API - Gestão de Veículos
 
-API RESTful construída com ASP.NET Core 8 Minimal API para gestão de administradores e veículos, com autenticação JWT, MySQL e testes automatizados.
+API RESTful construída com ASP.NET Core 8 Minimal API para gestão de administradores e veículos, com autenticação JWT, MySQL e testes automatizados. Frontend React com interface responsiva e dark/light theme.
 
 ## Stack Tecnológica
+
+### Backend
 
 | Tecnologia | Versão | Descrição |
 |------------|--------|-----------|
@@ -16,6 +18,19 @@ API RESTful construída com ASP.NET Core 8 Minimal API para gestão de administr
 | JWT Bearer | 8.0.11 | Autenticação por token |
 | Swashbuckle | 6.9.0 | Documentação Swagger |
 | MSTest | 3.6.3 | Framework de testes |
+
+### Frontend
+
+| Tecnologia | Versão | Descrição |
+|------------|--------|-----------|
+| React | 19.x | Biblioteca UI |
+| TypeScript | 6.x | Tipagem estática |
+| Vite | 8.x | Build tool |
+| Tailwind CSS | 3.x | Utility-first CSS |
+| shadcn/ui | - | Componentes UI |
+| React Router | 7.x | Roteamento |
+| Axios | 1.x | HTTP client |
+| Lucide React | - | Ícones |
 
 ## Pré-requisitos
 
@@ -44,6 +59,18 @@ minimal-api/
 │   ├── Migrations/                  # Migrations do EF Core
 │   ├── Program.cs                   # Ponto de entrada da aplicação
 │   └── minimal-api.csproj
+├── frontend/
+│   ├── src/
+│   │   ├── components/              # Componentes React (Layout, UI)
+│   │   ├── contexts/                # AuthContext, ThemeContext
+│   │   ├── pages/                   # Login, Dashboard, Veículos, Administradores
+│   │   ├── services/                # API services (axios)
+│   │   ├── types/                   # TypeScript types
+│   │   └── lib/                     # Utilitários
+│   ├── public/                      # Assets estáticos
+│   ├── tailwind.config.js           # Configuração Tailwind + dark mode
+│   ├── vite.config.ts               # Configuração Vite + proxy
+│   └── package.json
 ├── Test/
 │   ├── Domain/                      # Testes unitários de domínio
 │   ├── Helpers/                     # Setup de testes com WebApplicationFactory
@@ -71,10 +98,7 @@ Certifique-se de que o MySQL está rodando. Crie o banco de dados:
 CREATE DATABASE minimal_api;
 ```
 
-Ou importe o dump incluído no projeto:
-```bash
-mysql -u root -proot minimal_api < Test/minimal_api.dump.sql
-```
+Ou use o banco em memória (padrão em desenvolvimento) — não precisa de MySQL.
 
 3. **Configurar variáveis de ambiente (opcional):**
 
@@ -85,17 +109,25 @@ cp .env.example .env
 
 As configurações padrão em `appsettings.json` funcionam para desenvolvimento local.
 
-4. **Restaurar pacotes e rodar:**
+4. **Rodar o Backend:**
 ```bash
 cd Api
 dotnet restore
 dotnet run
 ```
 
-5. **Acessar a aplicação:**
+5. **Rodar o Frontend (em outro terminal):**
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+6. **Acessar a aplicação:**
 
 | URL | Descrição |
 |-----|-----------|
+| `http://localhost:3000` | Frontend (React) |
 | `http://localhost:5004` | API |
 | `http://localhost:5004/swagger` | Swagger UI |
 | `http://localhost:5004/health` | Health Check |
@@ -253,6 +285,8 @@ curl -X POST http://localhost:5004/veiculos \
 
 ## Funcionalidades
 
+### Backend
+
 - CRUD completo de Administradores e Veículos
 - Autenticação JWT com roles (Adm, Editor)
 - Validação de dados com FluentValidation
@@ -265,6 +299,17 @@ curl -X POST http://localhost:5004/veiculos \
 - Global exception handling
 - Docker multi-stage build
 - Testes unitários e de integração (28 testes)
+
+### Frontend
+
+- Interface responsiva com sidebar
+- Dark/Light theme toggle (salvo no localStorage)
+- Toast notifications com auto-dismiss (3 segundos)
+- Autenticação JWT com redirecionamento automático
+- Páginas: Login, Dashboard, Veículos, Administradores
+- CRUD completo com dialogs de confirmação
+- Filtros e paginação
+- Proteção de rotas por perfil (Adm/Editor)
 
 ## Licença
 
