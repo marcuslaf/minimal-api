@@ -25,4 +25,4 @@ COPY --from=publish /app/publish .
 
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-ENTRYPOINT ["sh", "-c", "dotnet minimal-api.dll --urls http://+:${PORT:-8080}"]
+CMD dotnet minimal-api.dll --urls "http://+:${PORT:-8080}"
