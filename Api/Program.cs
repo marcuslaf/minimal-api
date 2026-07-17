@@ -168,6 +168,12 @@ builder.Services.AddHealthChecks()
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var ctx = scope.ServiceProvider.GetRequiredService<DbContexto>();
+    ctx.Database.EnsureCreated();
+}
+
 // ─── Middleware Pipeline ───────────────────────────────────
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
