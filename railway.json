@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "dotnet run --project Api --urls http://0.0.0.0:$PORT",
+    "startCommand": "dotnet run --project Api --configuration Release --urls http://0.0.0.0:$PORT",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
