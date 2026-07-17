@@ -2,6 +2,21 @@
 
 API RESTful construída com ASP.NET Core 8 Minimal API para gestão de administradores e veículos, com autenticação JWT, MySQL e testes automatizados. Frontend React com interface responsiva e dark/light theme.
 
+## Links de Produção
+
+| Serviço | URL |
+|---------|-----|
+| **Frontend** | [frontend-ruddy-seven-m6v9ufe95y.vercel.app](https://frontend-ruddy-seven-m6v9ufe95y.vercel.app) |
+| **Backend API** | [minimal-api-backend-production.up.railway.app](https://minimal-api-backend-production.up.railway.app) |
+| **Swagger** | [minimal-api-backend-production.up.railway.app/swagger](https://minimal-api-backend-production.up.railway.app/swagger) |
+| **Health Check** | [minimal-api-backend-production.up.railway.app/health](https://minimal-api-backend-production.up.railway.app/health) |
+
+### Credenciais de Acesso
+
+| Email | Senha | Perfil |
+|-------|-------|--------|
+| administrador@teste.com | 123456 | Adm |
+
 ## Stack Tecnológica
 
 ### Backend
