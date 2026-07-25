@@ -1,331 +1,274 @@
-# Minimal API - Gestão de Veículos
+# Minimal API — Vehicle Management | Gestão de Veículos
 
-API RESTful construída com ASP.NET Core 8 Minimal API para gestão de administradores e veículos, com autenticação JWT, MySQL e testes automatizados. Frontend React com interface responsiva e dark/light theme.
+## 🇧🇷 Português
 
-## Links de Produção
+API RESTful construída com **ASP.NET Core 8 Minimal API** para gestão de administradores e veículos, com autenticação JWT, MySQL e testes automatizados. Frontend React com interface responsiva e tema dark/light.
 
-| Serviço | URL |
-|---------|-----|
-| **Frontend** | [frontend-ruddy-seven-m6v9ufe95y.vercel.app](https://frontend-ruddy-seven-m6v9ufe95y.vercel.app) |
-| **Backend API** | [minimal-api-backend-production.up.railway.app](https://minimal-api-backend-production.up.railway.app) |
-| **Swagger** | [minimal-api-backend-production.up.railway.app/swagger](https://minimal-api-backend-production.up.railway.app/swagger) |
-| **Health Check** | [minimal-api-backend-production.up.railway.app/health](https://minimal-api-backend-production.up.railway.app/health) |
+## 🇺🇸 English
 
-### Credenciais de Acesso
+RESTful API built with **ASP.NET Core 8 Minimal API** for managing administrators and vehicles, featuring JWT authentication, MySQL, and automated tests. React frontend with responsive design and dark/light theme.
 
-| Email | Senha | Perfil |
-|-------|-------|--------|
+---
+
+## 🔗 Production Links | Links de Produção
+
+| Serviço / Service | URL |
+|-------------------|-----|
+| **Frontend** | [frontend-ruddy-seven.vercel.app](https://frontend-ruddy-seven-m6v9ufe95y.vercel.app) |
+| **Backend API** | [minimal-api-backend.railway.app](https://minimal-api-backend-production.up.railway.app) |
+| **Swagger** | [minimal-api-backend.up.railway.app/swagger](https://minimal-api-backend-production.up.railway.app/swagger) |
+| **Health Check** | [minimal-api-backend.up.railway.app/health](https://minimal-api-backend-production.up.railway.app/health) |
+
+### Default Credentials | Credenciais Padrão
+
+| Email | Senha / Password | Perfil / Role |
+|-------|------------------|---------------|
 | administrador@teste.com | 123456 | Adm |
 
-## Stack Tecnológica
+---
+
+## 🛠️ Tech Stack | Pilha Tecnológica
 
 ### Backend
 
-| Tecnologia | Versão | Descrição |
-|------------|--------|-----------|
+| Tecnologia / Technology | Versão | Descrição / Description |
+|-------------------------|--------|------------------------|
 | .NET | 8.0 LTS | Framework principal (suporte até Nov/2026) |
-| ASP.NET Core Minimal API | 8.0 | Framework web |
-| Entity Framework Core | 8.0.11 | ORM para acesso a dados |
-| Pomelo MySQL | 8.0.2 | Provider MySQL |
-| BCrypt.Net | 4.0.3 | Hashing de senhas |
-| FluentValidation | 11.9.0 | Validação de DTOs |
-| Serilog | 8.0.3 | Logging estruturado |
-| JWT Bearer | 8.0.11 | Autenticação por token |
-| Swashbuckle | 6.9.0 | Documentação Swagger |
-| MSTest | 3.6.3 | Framework de testes |
+| ASP.NET Core Minimal API | 8.0 | Web framework |
+| Entity Framework Core | 8.0.11 | ORM |
+| Pomelo MySQL | 8.0.2 | MySQL provider |
+| BCrypt.Net | 4.0.3 | Password hashing |
+| FluentValidation | 11.9.0 | DTO validation |
+| Serilog | 8.0.3 | Structured logging |
+| JWT Bearer | 8.0.11 | Token authentication |
+| Swashbuckle | 6.9.0 | Swagger docs |
+| MSTest | 3.6.3 | Test framework |
 
 ### Frontend
 
-| Tecnologia | Versão | Descrição |
-|------------|--------|-----------|
-| React | 19.x | Biblioteca UI |
-| TypeScript | 6.x | Tipagem estática |
+| Tecnologia / Technology | Versão | Descrição / Description |
+|-------------------------|--------|------------------------|
+| React | 19.x | UI Library |
+| TypeScript | 6.x | Static typing |
 | Vite | 8.x | Build tool |
 | Tailwind CSS | 3.x | Utility-first CSS |
-| shadcn/ui | - | Componentes UI |
-| React Router | 7.x | Roteamento |
+| shadcn/ui | - | UI components |
+| React Router | 7.x | Routing |
 | Axios | 1.x | HTTP client |
-| Lucide React | - | Ícones |
+| Lucide React | - | Icons |
 
-## Pré-requisitos
+---
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) ou superior
-- [MySQL 8.x](https://dev.mysql.com/downloads/mysql/) (ou use Docker)
-- [Docker](https://www.docker.com/) e Docker Compose (opcional)
+## 📋 Prerequisites | Pré-requisitos
 
-## Estrutura do Projeto
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [MySQL 8.x](https://dev.mysql.com/downloads/mysql/) (or use Docker)
+- [Docker](https://www.docker.com/) (optional)
 
-```
+---
+
+## 📁 Project Structure | Estrutura do Projeto
+
+`
 minimal-api/
 ├── Api/
 │   ├── Dominio/
 │   │   ├── DTOs/                    # Data Transfer Objects
-│   │   ├── Entidades/               # Entidades de domínio
-│   │   ├── Enuns/                   # Enumerações (Perfil: Adm, Editor)
-│   │   ├── Interfaces/              # Contratos dos services (async)
-│   │   ├── ModelViews/              # Models de resposta
-│   │   └── Servicos/                # Implementação dos services
-│   ├── Endpoints/                   # Endpoints extraídos por domínio
+│   │   ├── Entidades/               # Domain entities
+│   │   ├── Enuns/                   # Enums (Perfil: Adm, Editor)
+│   │   ├── Interfaces/              # Service contracts (async)
+│   │   ├── ModelViews/              # Response models
+│   │   └── Servicos/                # Service implementations
+│   ├── Endpoints/                   # Domain endpoints
 │   │   ├── AdministradoresEndpoints.cs
 │   │   └── VeiculosEndpoints.cs
-│   ├── Infraestrutura/Db/           # DbContext e configuração do EF Core
-│   ├── Middleware/                   # Exception handling global
-│   ├── Validators/                  # Validações FluentValidation
-│   ├── Migrations/                  # Migrations do EF Core
-│   ├── Program.cs                   # Ponto de entrada da aplicação
+│   ├── Infraestrutura/Db/           # DbContext & EF Core config
+│   ├── Middleware/                   # Global exception handling
+│   ├── Validators/                  # FluentValidation
+│   ├── Migrations/                  # EF Core migrations
+│   ├── Program.cs                   # Entry point
 │   └── minimal-api.csproj
 ├── frontend/
 │   ├── src/
-│   │   ├── components/              # Componentes React (Layout, UI)
+│   │   ├── components/              # React components
 │   │   ├── contexts/                # AuthContext, ThemeContext
-│   │   ├── pages/                   # Login, Dashboard, Veículos, Administradores
+│   │   ├── pages/                   # Login, Dashboard, Veículos, Admins
 │   │   ├── services/                # API services (axios)
 │   │   ├── types/                   # TypeScript types
-│   │   └── lib/                     # Utilitários
-│   ├── public/                      # Assets estáticos
-│   ├── tailwind.config.js           # Configuração Tailwind + dark mode
-│   ├── vite.config.ts               # Configuração Vite + proxy
+│   │   └── lib/                     # Utilities
+│   ├── public/                      # Static assets
+│   ├── tailwind.config.js
+│   ├── vite.config.ts
 │   └── package.json
 ├── Test/
-│   ├── Domain/                      # Testes unitários de domínio
-│   ├── Helpers/                     # Setup de testes com WebApplicationFactory
-│   ├── Mocks/                       # Mocks para services
-│   └── Requests/                    # Testes de integração (HTTP)
-├── Dockerfile                       # Build multi-stage
-├── docker-compose.yml               # Infraestrutura completa
-└── .env.example                     # Variáveis de ambiente
-```
+│   ├── Domain/                      # Unit tests
+│   ├── Helpers/                     # WebApplicationFactory setup
+│   ├── Mocks/                       # Service mocks
+│   └── Requests/                    # Integration tests (HTTP)
+├── Dockerfile                       # Multi-stage build
+├── docker-compose.yml               # Full infrastructure
+└── .env.example
+`
 
-## Como Rodar
+---
 
-### Opção 1: Manual (desenvolvimento local)
+## 🚀 How to Run | Como Rodar
 
-1. **Clonar o repositório:**
-```bash
-git clone https://github.com/marcuslaf/minimal-api.git
-cd minimal-api
-```
+### Option 1: Manual (Development)
 
-2. **Configurar o banco de dados:**
-
-Certifique-se de que o MySQL está rodando. Crie o banco de dados:
-```sql
-CREATE DATABASE minimal_api;
-```
-
-Ou use o banco em memória (padrão em desenvolvimento) — não precisa de MySQL.
-
-3. **Configurar variáveis de ambiente (opcional):**
-
-Copie o `.env.example` para `.env` e ajuste conforme necessário:
-```bash
-cp .env.example .env
-```
-
-As configurações padrão em `appsettings.json` funcionam para desenvolvimento local.
-
-4. **Rodar o Backend:**
-```bash
+**Backend:**
+`ash
 cd Api
 dotnet restore
 dotnet run
-```
+`
 
-5. **Rodar o Frontend (em outro terminal):**
-```bash
+**Frontend** (separate terminal):
+`ash
 cd frontend
 npm install
 npm run dev
-```
+`
 
-6. **Acessar a aplicação:**
+| URL | Descrição / Description |
+|-----|------------------------|
+| http://localhost:3000 | Frontend (React) |
+| http://localhost:5004 | API |
+| http://localhost:5004/swagger | Swagger UI |
+| http://localhost:5004/health | Health Check |
 
-| URL | Descrição |
-|-----|-----------|
-| `http://localhost:3000` | Frontend (React) |
-| `http://localhost:5004` | API |
-| `http://localhost:5004/swagger` | Swagger UI |
-| `http://localhost:5004/health` | Health Check |
+### Option 2: Docker Compose
 
-### Opção 2: Docker Compose
-
-1. **Subir tudo com Docker:**
-```bash
+`ash
 docker-compose up --build
-```
+`
 
-2. **Acessar:**
-- API: `http://localhost:8080`
-- Swagger: `http://localhost:8080/swagger`
-- MySQL: `localhost:3306` (usuário: `root`, senha: `root`)
+- API: http://localhost:8080
+- Swagger: http://localhost:8080/swagger
+- MySQL: localhost:3306 (user: oot, password: oot)
 
-3. **Parar:**
-```bash
-docker-compose down
-```
+`ash
+docker-compose down       # Stop
+docker-compose down -v    # Stop and clear data
+`
 
-4. **Parar e limpar dados:**
-```bash
-docker-compose down -v
-```
+---
 
-## Rodando os Testes
+## 🧪 Running Tests | Testes
 
-### Testes unitários (sem MySQL)
-
-```bash
+`ash
+# Unit tests (InMemory DB, no MySQL needed)
 dotnet test
-```
 
-Os testes usam **InMemory Database**, então não precisam de MySQL rodando.
-
-### Testes com cobertura de código
-
-```bash
+# With code coverage
 dotnet test --collect:"XPlat Code Coverage"
-```
+`
 
-## Endpoints da API
+---
 
-### Autenticação
+## 📡 API Endpoints
 
-| Método | Endpoint | Descrição | Autenticação |
-|--------|----------|-----------|--------------|
-| POST | `/administradores/login` | Login e retorno de token JWT | Não |
+### Authentication | Autenticação
 
-**Requisição:**
-```json
-{
-  "email": "administrador@teste.com",
-  "senha": "123456"
-}
-```
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | /administradores/login | Login, returns JWT | No |
 
-**Resposta (200 OK):**
-```json
+**Request:**
+`json
+{ "email": "administrador@teste.com", "senha": "123456" }
+`
+
+**Response (200):**
+`json
 {
   "email": "administrador@teste.com",
   "perfil": "Adm",
   "token": "eyJhbGciOiJIUzI1NiIs..."
 }
-```
+`
 
-### Administradores (requer perfil Adm)
+### Administrators (requires Adm role)
 
-| Método | Endpoint | Descrição | Autenticação |
-|--------|----------|-----------|--------------|
-| GET | `/administradores` | Listar todos (paginado) | JWT + Adm |
-| GET | `/administradores/{id}` | Buscar por ID | JWT + Adm |
-| POST | `/administradores` | Criar novo | JWT + Adm |
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | /administradores | List all (paginated) | JWT + Adm |
+| GET | /administradores/{id} | Get by ID | JWT + Adm |
+| POST | /administradores | Create new | JWT + Adm |
 
-### Veículos (requer Adm ou Editor)
+### Vehicles (requires Adm or Editor)
 
-| Método | Endpoint | Descrição | Autenticação |
-|--------|----------|-----------|--------------|
-| GET | `/veiculos` | Listar todos (paginado, filtro nome/marca) | JWT |
-| GET | `/veiculos/{id}` | Buscar por ID | JWT + Adm/Editor |
-| POST | `/veiculos` | Criar novo | JWT + Adm/Editor |
-| PUT | `/veiculos/{id}` | Atualizar | JWT + Adm |
-| DELETE | `/veiculos/{id}` | Deletar | JWT + Adm |
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | /veiculos | List all (paginated, filter by name/brand) | JWT |
+| GET | /veiculos/{id} | Get by ID | JWT |
+| POST | /veiculos | Create new | JWT |
+| PUT | /veiculos/{id} | Update | JWT + Adm |
+| DELETE | /veiculos/{id} | Delete | JWT + Adm |
 
-### Exemplos de Uso com cURL
+### cURL Examples
 
-**Login:**
-```bash
+`ash
+# Login
 curl -X POST http://localhost:5004/administradores/login \
   -H "Content-Type: application/json" \
   -d '{"email":"administrador@teste.com","senha":"123456"}'
-```
 
-**Listar veículos (com token):**
-```bash
+# List vehicles
 curl http://localhost:5004/veiculos \
   -H "Authorization: Bearer <token>"
-```
 
-**Filtrar veículos por marca:**
-```bash
+# Filter by brand
 curl "http://localhost:5004/veiculos?marca=honda" \
   -H "Authorization: Bearer <token>"
-```
 
-**Criar veículo:**
-```bash
+# Create vehicle
 curl -X POST http://localhost:5004/veiculos \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{"nome":"Civic","marca":"Honda","ano":2024}'
-```
+`
 
-## Configuração
+---
 
-### Variáveis de Ambiente
+## 🔐 Security | Segurança
 
-| Variável | Padrão | Descrição |
-|----------|--------|-----------|
-| `ConnectionStrings__MySql` | `Server=localhost;Database=minimal_api;Uid=root;Pwd=root;` | String de conexão MySQL |
-| `Jwt__Key` | - | Chave secreta JWT (mínimo 32 bytes/256 bits) |
-| `Jwt__ExpiryDays` | `1` | Dias de validade do token |
-| `Cors__AllowedOrigins__*` | `http://localhost:5004` | Origens permitidas no CORS |
-| `RateLimiting__PermitLimit` | `10` | Máximo de requisições por janela |
-| `RateLimiting__WindowSeconds` | `60` | Janela de tempo em segundos |
+| Feature | Descrição / Description |
+|---------|------------------------|
+| **BCrypt** | Senhas hasheadas, nunca em texto plano / Hashed passwords, never plaintext |
+| **JWT HMAC-SHA256** | Tokens assinados com expiração configurável / Signed tokens, configurable expiry |
+| **CORS** | Restrito a origens específicas em produção / Restricted origins in production |
+| **Rate Limiting** | 10 requisições/minuto por IP no login / 10 requests/minute per IP on login |
+| **HSTS** | Habilitado em produção / Enabled in production |
+| **HTTPS** | Redirecionamento automático / Automatic redirect |
+| **Swagger** | Desabilitado fora de Development / Disabled outside Development |
+| **Exception Handling** | Middleware global sem stack traces em produção / No stack traces in production |
 
-### Perfis de Execução
+---
 
-| Perfil | Ambiente | Swagger | CORS |
-|--------|----------|---------|------|
-| `http` | Development | Habilitado | AllowAnyOrigin |
-| `https` | Development | Habilitado | AllowAnyOrigin |
-| `Testing` | Testing | Desabilitado | AllowAnyOrigin |
-| Production | Production | Desabilitado | Origens configuradas |
+## ⚙️ Configuration | Configuração
 
-## Segurança
+### Environment Variables | Variáveis de Ambiente
 
-- **Senhas:** Hasheadas com BCrypt (nunca armazenadas em texto plano)
-- **JWT:** Tokens assinados com HMAC-SHA256, expiração configurável
-- **CORS:** Restrito a origens específicas em produção
-- **Rate Limiting:** 10 requisições por minuto por IP no login
-- **HSTS:** Habilitado em produção
-- **HTTPS Redirection:** Middleware de redirecionamento HTTPS
-- **Swagger:** Desabilitado fora do ambiente Development
-- **Exception Handling:** Middleware global que não expõe stack traces em produção
+| Variable | Default | Description |
+|----------|---------|-------------|
+| ConnectionStrings__MySql | Server=localhost;Database=minimal_api;Uid=root;Pwd=root; | MySQL connection string |
+| Jwt__Key | - | JWT secret key (min 32 bytes/256 bits) |
+| Jwt__ExpiryDays | 1 | Token expiry in days |
+| Cors__AllowedOrigins__* | http://localhost:5004 | Allowed CORS origins |
+| RateLimiting__PermitLimit | 10 | Max requests per window |
+| RateLimiting__WindowSeconds | 60 | Time window in seconds |
 
-### Usuário Padrão (Seed Data)
+### Execution Profiles | Perfis de Execução
 
-| Email | Senha | Perfil |
-|-------|-------|--------|
-| administrador@teste.com | 123456 | Adm |
+| Profile | Swagger | CORS |
+|---------|---------|------|
+| Development | Enabled | AllowAnyOrigin |
+| Testing | Disabled | AllowAnyOrigin |
+| Production | Disabled | Configured origins |
 
-> **IMPORTANTE:** Altere a senha padrão e a chave JWT antes de colocar em produção.
+---
 
-## Funcionalidades
+## 📬 Contact | Contato
 
-### Backend
-
-- CRUD completo de Administradores e Veículos
-- Autenticação JWT com roles (Adm, Editor)
-- Validação de dados com FluentValidation
-- Paginação em listagens
-- Filtros por nome e marca nos veículos
-- Logging estruturado com Serilog (console + arquivo)
-- Health checks (`/health`)
-- Response compression (Brotli + Gzip)
-- Rate limiting configurável
-- Global exception handling
-- Docker multi-stage build
-- Testes unitários e de integração (28 testes)
-
-### Frontend
-
-- Interface responsiva com sidebar
-- Dark/Light theme toggle (salvo no localStorage)
-- Toast notifications com auto-dismiss (3 segundos)
-- Autenticação JWT com redirecionamento automático
-- Páginas: Login, Dashboard, Veículos, Administradores
-- CRUD completo com dialogs de confirmação
-- Filtros e paginação
-- Proteção de rotas por perfil (Adm/Editor)
-
-## Licença
-
-Este projeto é para fins educacionais.
+**Marcus Lafaiete** — [GitHub](https://github.com/marcuslaf) · [LinkedIn](https://www.linkedin.com/in/marcuslaf)
